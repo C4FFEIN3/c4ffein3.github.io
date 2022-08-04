@@ -15,7 +15,6 @@ Hotstorage'21
 Yuqi Zhang, Ni Xue, Yangxu Zhou
 
 ## Idea
-
 ### File types
     - Append-only
         - Only be written sequentially
@@ -27,6 +26,7 @@ Yuqi Zhang, Ni Xue, Yangxu Zhou
         - The files exists for a long time
         - The data files are created or deleted when the tables are created or deleted
         - The update frequencies of data in the same table are similar, while those in different table files are different
+        
 ### Scheme
     - File monitor
         - Information of all opened files (except read-only) by the tool (e.g. inotify)

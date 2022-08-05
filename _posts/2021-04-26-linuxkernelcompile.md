@@ -126,11 +126,13 @@ sudo dpkg -i linux-image-5.15.21_1.0_amd64.deb
 - **make를 이용해서 커널 컴파일 및 설치**
 
 ```bash
-sudo make modules
-sudo make
+sudo make modules -j 24
+sudo make -j 24
 sudo make modules_install
 sudo make install
 ```
+
+make의 -j 옵션 또한 멀티 스레드 옵션으로 빠른 컴파일을 위해 필요하다. 
 
 ## Reboot
 

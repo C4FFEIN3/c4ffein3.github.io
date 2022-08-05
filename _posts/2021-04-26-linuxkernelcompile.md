@@ -61,7 +61,7 @@ make config의 경우 텍스트 기반이며, make menuconfig의 경우 GUI 기�
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005706-943ac3e6-51ab-4e2b-a07e-1f987b1fa33a.png)
 
-설정이 완료되면 <Save>를 선택하여 설정 파일을 생성하고, <Exit>으로 빠져나오면 된다.
+설정이 완료되면 \<Save>를 선택하여 설정 파일을 생성하고, \<Exit>으로 빠져나오면 된다.
 
 ### 현재 설치된 리눅스의 설정 파일을 사용하고자 하는 경우
 
@@ -86,11 +86,11 @@ sudo cp /boot/config-5.13.0-28-generic /usr/src/linux-5.15.21/.config
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005706-943ac3e6-51ab-4e2b-a07e-1f987b1fa33a.png)
 
-- **menuconfig의 화면에서 <Load>를 선택한 후 불러올 설정 파일의 이름을 입력한다.**
+- **menuconfig의 화면에서 \<Load>를 선택한 후 불러올 설정 파일의 이름을 입력한다.**
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005708-23026c6e-5c8b-41bb-9bf8-9421bc98b479.png)
 
-- **그 후 <Ok>를 누르고 나와서 <Save>를 선택해 설정을 저장하고 <Exit>으로 종료한다.**
+- **그 후 \<Ok>를 누르고 나와서 \<Save>를 선택해 설정을 저장하고 \<Exit>으로 종료한다.**
 
 ## 커널 컴파일 및 설치
 

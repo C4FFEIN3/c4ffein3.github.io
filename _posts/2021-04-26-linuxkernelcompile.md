@@ -57,23 +57,23 @@ make config, make menuconfig 중 원하는 명령어를 이용하여 커널 설�
 
 make config의 경우 텍스트 기반이며, make menuconfig의 경우 GUI 기반이다.
 
-- **make menuconfig**
+### menuconfig를 사용하여 설정
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005706-943ac3e6-51ab-4e2b-a07e-1f987b1fa33a.png)
 
 설정이 완료되면 <Save>를 선택하여 설정 파일을 생성하고, <Exit>으로 빠져나오면 된다.
 
-- **현재 설치된 리눅스의 설정 파일을 사용하고자 하는 경우**
+### 현재 설치된 리눅스의 설정 파일을 사용하고자 하는 경우
 
 복잡한 설정을 하는 대신 기존의 설정 파일을 재사용하고자 하는 경우에는 기존 리눅스의 설정 파일을 불러와서 설정으로 사용할 수 있다.
 
-1. **현재 커널 버전 확인**
+- **현재 커널 버전 확인**
 
 ```bash
 uname -r
 ```
 
-2. **기존 커널 설정 파일을 설치하고자 하는 커널 소스파일 디렉토리에 .config 파일로 복사한다.**
+- **기존 커널 설정 파일을 설치하고자 하는 커널 소스파일 디렉토리에 .config 파일로 복사한다.**
 
 ex) 현재 커널 버전이 5.13.0-28-generic이고 설치하고자 하는 커널 소스가 5.15.21인 경우
 
@@ -82,15 +82,15 @@ ex) 현재 커널 버전이 5.13.0-28-generic이고 설치하고자 하는 커�
 sudo cp /boot/config-5.13.0-28-generic /usr/src/linux-5.15.21/.config
 ```
 
-3. **menuconfig를 이용해 복사한 설정 파일의 설정을 적용한다.**
+- **menuconfig를 이용해 복사한 설정 파일의 설정을 적용한다.**
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005706-943ac3e6-51ab-4e2b-a07e-1f987b1fa33a.png)
 
-4. **menuconfig의 화면에서 <Load>를 선택한 후 불러올 설정 파일의 이름을 입력한다.**
+- **menuconfig의 화면에서 <Load>를 선택한 후 불러올 설정 파일의 이름을 입력한다.**
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005708-23026c6e-5c8b-41bb-9bf8-9421bc98b479.png)
 
-5. **그 후 <Ok>를 누르고 나와서 <Save>를 선택해 설정을 저장하고 <Exit>으로 종료한다.**
+- **그 후 <Ok>를 누르고 나와서 <Save>를 선택해 설정을 저장하고 <Exit>으로 종료한다.**
 
 ## 커널 컴파일 및 설치
 
@@ -99,8 +99,8 @@ sudo cp /boot/config-5.13.0-28-generic /usr/src/linux-5.15.21/.config
 1. make-kpkg를 이용해서 커널 이미지 생성 및 dpkg를 이용한 설치
 2. make modules(모듈 컴파일), make(커널 컴파일), make modules_install(컴파일된 모듈 설치), make install(컴파일된 커널 설치)를 통해 커널 컴파일 및 설치
 
-- **make-kpkg를 이용해서 커널 이미지 생성 및 dpkg를 이용한 설치**
-1. **커널 컴파일**
+### make-kpkg를 이용해서 커널 이미지 생성 및 dpkg를 이용한 설치
+- **커널 컴파일**
 
 ```bash
 sudo make-kpkg -j 24 --initrd --revision=1.0 kernel_image
@@ -116,14 +116,14 @@ grep -c processor /proc/cpuinfo
 
 ![Untitled](https://user-images.githubusercontent.com/57282971/183005712-d8a25d1d-07ec-434d-b9a0-8aab2b89c8d0.png)
 
-2. **커널 이미지 설치**
+- **커널 이미지 설치**
 
 ```bash
 # sudo dpkg -i {커널 이미지 파일명}
 sudo dpkg -i linux-image-5.15.21_1.0_amd64.deb
 ```
 
-- **make를 이용해서 커널 컴파일 및 설치**
+### make를 이용해서 커널 컴파일 및 설치
 
 ```bash
 sudo make modules -j 24

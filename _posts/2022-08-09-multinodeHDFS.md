@@ -1,4 +1,3 @@
-# multi-node HDFS 설치 및 실행
 ---
 layout: post
 title: "multi-node HDFS 설치 및 실행"

@@ -211,4 +211,7 @@ SSD의 내부 사진 (출처: http://www.storagereview.com/samsung_ssd_840_pro_r
 |PCIe 3세대|1GB/s|2GB/s|4GB/s|
 |PCIe 4세대|2GB/s|4GB/s|8GB/s|
 
-
+## 참고자료
+- [개발자를 위한 SSD (카카오 테크 블로그)](https://tech.kakao.com/2016/07/13/coding-for-ssd-part-1/)
+- [SSD GC](https://www.flashmemorysummit.com/English/Collaterals/Proceedings/2011/20110810_T1A_Smith.pdf)
+- [[FAST’14] Lifetime Improvement of NAND Flash-based Storage Systems Using Dynamic Program and Erase Scaling](https://www.usenix.org/conference/fast14/technical-sessions/presentation/jeong)

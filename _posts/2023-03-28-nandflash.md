@@ -33,7 +33,7 @@ SSD의 내부 사진 (출처: http://www.storagereview.com/samsung_ssd_840_pro_r
 
 |하드디스크|플래시 메모리|
 |---|---|
-|![hdd](https://user-images.githubusercontent.com/57282971/228249117-244b954e-dd3f-4917-8852-a942636fffa2.png)<br>HDD의 구조 그림 (출처: https://www.britannica.com/technology/hard-disk#/media/1/1521171/68191)|![ssd](https://user-images.githubusercontent.com/57282971/228248628-93749fad-3fff-49ce-a2a5-4b554d5d9a95.png)|
+|<img src="https://user-images.githubusercontent.com/57282971/228249117-244b954e-dd3f-4917-8852-a942636fffa2.png" width="40%"/><br>HDD의 구조 그림 (출처: https://www.britannica.com/technology/hard-disk#/media/1/1521171/68191)|<img src="https://user-images.githubusercontent.com/57282971/228248628-93749fad-3fff-49ce-a2a5-4b554d5d9a95.png" width="40%"/>|
 |자기 원반이 내부에 여러 개 들어 있고, 이 원반이 고속으로 **회전**하며 읽기, 쓰기 처리|회로를 통한 **전기적인 접근**|
 |**회전 구조로 인해서 물리적인 접근 시간**이 필요하여 느림|물리적인 접근 시간을 필요로 하는 하드디스크보다 빠르며, 랜덤 액세스에 유리한 것도 이러한 접근 방식 덕분|
 

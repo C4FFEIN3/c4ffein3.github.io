@@ -203,9 +203,9 @@ SSD의 내부 사진 (출처: http://www.storagereview.com/samsung_ssd_840_pro_r
 ##### SATA/PCIe 처리량
 ||x1|x2|x4|
 |---|---|---|---|
-|SATA 1세대|150MB/s|-|-|
-|SATA 2세대|300MB/s|-|-|
-|SATA 3세대|600MB/s|-|-|
+|SATA 1세대|150MB/s|.|.|
+|SATA 2세대|300MB/s|.|.|
+|SATA 3세대|600MB/s|.|.|
 |PCIe 1세대|250MB/s|500MB/s|1000MB/s|
 |PCIe 2세대|500MB/s|1000MB/s|2000MB/s|
 |PCIe 3세대|1GB/s|2GB/s|4GB/s|

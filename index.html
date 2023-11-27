@@ -1,0 +1,3494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | Delta</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="Home">
+<meta name="author" content="Minseon Cho(Delta)">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Blog of Minseon Cho">
+<meta property="og:description" content="Blog of Minseon Cho">
+<link rel="canonical" href="/jekyll-theme-yat/">
+<meta property="og:url" content="/jekyll-theme-yat/">
+<meta property="og:site_name" content="Delta">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Home">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Minseon Cho(Delta)"},"description":"Blog of Minseon Cho","headline":"Home","name":"Delta","url":"/jekyll-theme-yat/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/jekyll-theme-yat/feed.xml" title="Delta">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header site-header-transparent" role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Delta" src="" onerror="this.style.display='none'">
+  Delta
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;documentElement.setAttribute("data-header-transparent", "");var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="page-banner">
+    <div class="page-banner-img">
+<div style="background-image: url(https://images.unsplash.com/photo-1468476775582-6bede20f356f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8)"></div>
+        <img class="img-placeholder" src="https://images.unsplash.com/photo-1468476775582-6bede20f356f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8">
+</div>
+    <div class="wrapper">
+      <div class="page-banner-inner"><div class="page-banner-default">
+            <h1 class="page-banner-heading">
+              Delta
+            </h1>
+            <h2 class="page-banner-subheading">
+              Tech Blog
+            </h2>
+          </div></div>
+    </div>
+  </section><script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="articles">
+  
+
+  
+
+
+  <div class="pagination">
+  <!-- Post list links -->
+  <ul class="post-list">
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2023/11/27/numa.html">
+          NUMA (Non-Uniform Memory Architecture)
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Nov 27, 2023</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 12 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2023/11/27/numa.html">
+        <p>
+        시스템 토폴로지
+
+CMP (Chip-level Multi Processor)
+
+
+  최근 CPU는 하나의 소켓에 멀티 코어로 구성 (하나의 칩에 여러 개의 프로세서)
+
+
+
+
+SMP (Symmetric Multi Processor) / UMA (Uniform Memory Access)
+
+
+  멀티코어 CPU를 여러 개 장착한 시스템의 경우 메모리를 2개 이상의 CPU가 접근
+  CPU와 메모리 사이를 네트워크로 연결하여 접근이 필요
+  메모리를 공유하므로 한 번에 한 개의 프로세서만 하나의 메모리에 접근 가능 → 프로세서가 증가할수록 성능 문제 야기
+
+
+
+
+NUMA (Non-Uniform Memory Access)
+... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hardware">#hardware</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2023/05/16/mktemp.html">
+          [Linux command] mktemp
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> May 16, 2023</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2023/05/16/mktemp.html">
+        <p>
+        용도
+
+  임시 파일 생성
+
+
+사용방법
+옵션
+
+
+  
+    
+      옵션
+      내용
+    
+  
+  
+    
+      **-u**
+      실제로 파일을 생성하지는 않으나 유니크한 파일 이름을 생성
+    
+  
+
+
+예시
+$ mktemp
+/tmp/tmp.GrEUO8uPba
+
+
+특정 확장자를 가지는 임시 파일 생성
+$ mktemp --suffix ".txt"
+/tmp/tmp.UwUkfdnLzm.txt
+
+
+특정 패턴을 가지는 임시 파일 생성
+$ mktemp temp.XXXX
+temp.X1fs
+
+
+  4개의 X가 임의의 글자로 치환되어 파일 생성
+
+
+임시 디렉토리 생성
+$ mktemp -d
+/tmp/t... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#command">#command</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2023/05/16/chattr.html">
+          [Linux command] chattr
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> May 16, 2023</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2023/05/16/chattr.html">
+        <p>
+        용도
+
+  디렉토리 혹은 파일의 속성 변경
+
+
+사용방법
+설정
+
+
+  
+    
+      옵션
+      내용
+    
+  
+  
+    
+      +
+      특정 속성 부여
+    
+    
+      -
+      특정 속성 제거
+    
+  
+
+
+속성
+
+
+  
+    
+      속성
+      내용
+    
+  
+  
+    
+      a
+      append만 가능
+    
+    
+      c
+      압축된 상태로 저장
+    
+    
+      d
+      dump로 백업 불가
+    
+    
+      i
+      read-only 상태
+    
+    
+      s
+     ... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#command">#command</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/storage/2023/04/27/hdd.html">
+          Hard disk drive
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Apr 27, 2023</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/storage/2023/04/27/hdd.html">
+        <p>
+        Hard disk drive
+
+  자기적인(magnetic) 방식으로 데이터를 저장하는 보조기억장치
+
+
+하드웨어 구조
+
+
+
+
+  스핀들 모터(Spindle motor)
+    
+      플래터의 회전 담당
+    
+  
+  액추에이터(Actuator)
+    
+      액추에이터 암을 구동
+    
+  
+  액추에이터 암(Actuator arm)
+    
+      액추에이터를 통해 구동
+      하나의 하드디스크에는 여러 개의 암이 존재
+      플래터의 앞뒷면을 모두 사용하므로 한 플래터당 2개의 암 필요
+    
+  
+  헤드(Head)
+    
+      데이터를 읽고 쓰는 헤드
+    
+  
+
+
+데... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#hardware">#hardware</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#fileIO">#fileIO</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2023/04/02/blkmq.html">
+          Multi-queue block I/O scheduler
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Apr 02, 2023</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2023/04/02/blkmq.html">
+        <p>
+        Multi-queue block I/O scheduler
+
+  blk-mq(Multi-queue block I/O queueing mechanism)의 I/O scheduler
+  리눅스 커널 5.0부터 multi-queue block I/O scheduler를 기본 I/O scheduelr로 사용
+  리눅스 커널 5.3부터 기존의 single queue block I/O scheduler를 지원하지 않음
+  RHEL 8, Ubuntu 20부터 multi-queue block I/O scheduler를 기본 I/O scheduler로 사용
+
+
+Multi-queue block I/O queueing
+배경
+
+  기존의... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#blockIO">#blockIO</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/storage/2023/03/28/nandflash.html">
+          Nand flash memory
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Mar 28, 2023</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 8 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/storage/2023/03/28/nandflash.html">
+        <p>
+        Nand flash memory
+
+  전기적으로 작동하는 비휘발성 메모리로, 전기적으로 지우고 리프로그래밍 할 수 있음
+  흔히 SATA SSD, NVMe SSD와 같은 고성능 스토리지
+    
+      그 외에도 SD 카드, USB 플래시 드라이브 같은 것들이 존재
+    
+  
+
+
+하드웨어 구조
+
+
+SSD의 내부 사진 (출처: http://www.storagereview.com/samsung_ssd_840_pro_review)
+
+
+  PC의 CPU와 같은 역할을 하는 SSD 컨트롤러
+  캐시 메모리 역할을 하는 DRAM
+  데이터 저장을 하는 낸드 플래시 메모리
+    
+      Die
+        
+  ... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#hardware">#hardware</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#fileIO">#fileIO</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/hadoop-ecosystem/2022/08/16/fio_hdfs.html">
+          FIO를 이용한 HDFS의 file I/O 성능 측정
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Aug 16, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/hadoop-ecosystem/2022/08/16/fio_hdfs.html">
+        <p>
+        FIO
+
+FIO를 이용한 file I/O 성능 측정
+
+HDFS
+
+single-node HDFS 설치 및 실행
+
+multi-node HDFS 설치 및 실행
+
+HDFS 환경
+
+아래 게시글의 멀티노드 HDFS 클러스터 환경을 전제로 한다.
+
+multi-node HDFS 설치 및 실행
+
+
+
+해당 게시글은 namenode에서 fio 실험을 하였기 때문에 로컬에 추가적인 HDFS 설치를 하지 않았으나, 별도의 컴퓨터에서 원격으로 fio를 실험하고자 하는 경우 로컬에 HDFS 설치가 필요하다. (fio 빌드 과정에서 HDFS library를 사용하므로)
+
+HDFS 실험을 위한 FIO 설치
+
+HDFS를 상대로 file I/O를 ... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hadoop-ecosystem">#hadoop-ecosystem</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#fileIO">#fileIO</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#fio">#fio</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2022/08/16/fio.html">
+          FIO를 이용한 file I/O 성능 측정
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Aug 16, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2022/08/16/fio.html">
+        <p>
+        https://github.com/axboe/fio
+
+FIO
+
+Flexible I/O tester
+
+FIO를 이용해서 file I/O의 read/write IOPS와 같은 성능을 측정할 수 있다.
+
+FIO 설치
+
+apt를 통한 설치
+
+간단하게 apt를 이용하여 설치할 수 있다.
+
+sudo apt-get install fio
+
+
+코드 컴파일을 통한 설치
+
+FIO 코드의 커스텀이 필요하거나, 기본적으로 포함하지 않는 기능을 포함한 fio를 사용하고자 할 때에는 코드 컴파일을 통해 설치하여야 한다.
+
+
+  아래의 링크에서 fio를 다운로드
+
+
+https://github.com/axboe/fio/releases
+
+
+  압... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#fileIO">#fileIO</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#fio">#fio</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/hadoop-ecosystem/2022/08/09/multinodeHDFS.html">
+          multi-node HDFS 설치 및 실행
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Aug 09, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/hadoop-ecosystem/2022/08/09/multinodeHDFS.html">
+        <p>
+        Overview
+
+구성하고자 하는 HDFS 구조
+
+
+
+java 설치
+
+openjdk-8-jdk 다운로드
+
+sudo apt install openjdk-8-jdk
+
+
+/etc/hosts 수정
+
+/etc/hosts는 IP와 hostname을 매핑하기 위한 파일
+
+멀티 노드에 접속할 때의 편의를 위해 /etc/hosts 파일에 내용을 추가한다.
+
+sudo vi /etc/hosts
+
+
+
+
+아래와 같이 다른 노드의 IP와 hostname을 지정하는 내용을 추가한다.
+
+
+
+hadoop 사용자 생성
+
+멀티 노드로 사용하고자 하는 모든 노드들에서 하둡용 계정을 생성
+
+하둡 설치 및 관련 설정은 모두 하둡용 계정에서 실행
+
+sud... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hadoop-ecosystem">#hadoop-ecosystem</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hdfs">#hdfs</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/hadoop-ecosystem/2022/07/29/hadoop_spark.html">
+          Spark에서 HDFS 파일 접근하기
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Jul 29, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/hadoop-ecosystem/2022/07/29/hadoop_spark.html">
+        <p>
+        하둡 실행
+
+{hadoop의 root directory}/sbin/start-all.sh
+
+
+Spark를 통해 데이터를 HDFS에 쓰기
+
+writeSparkHDFS.py
+
+from pyspark.sql import SparkSession
+
+sparkSession = SparkSession.builder.appName("example-pyspark-write").getOrCreate()
+
+data = [('First', 1), ('Second', 2), ('Third', 3), ('Fourth', 4), ('Fifth', 5)]
+df = sparkSession.createDataFrame(data)
+
+df.write... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hadoop-ecosystem">#hadoop-ecosystem</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hdfs">#hdfs</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#spark">#spark</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/hadoop-ecosystem/2022/07/28/spark.html">
+          Spark 설치 및 실행
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Jul 28, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/hadoop-ecosystem/2022/07/28/spark.html">
+        <p>
+        pysark 설치
+
+pip install pyspark
+
+
+pyspark shell 실행 예제
+
+예제에 사용할 파일 (test.txt)
+
+pyspark
+pysparkpyspark
+pysparkpysparkpyspark
+pysparkpysparkpysparkpyspark
+
+
+pyspark shell 실행
+
+pyspark
+
+
+
+
+파일 읽기
+
+&gt;&gt;&gt; textFile = spark.read.text(”test.txt”)
+
+
+텍스트 파일의 row 수 세기
+
+&gt;&gt;&gt; textFile.count()
+4
+
+
+텍스트 파일의 첫번째 row 보기
+
+&gt;&gt;&gt; textFile.first()
+R... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hadoop-ecosystem">#hadoop-ecosystem</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#spark">#spark</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/hadoop-ecosystem/2022/07/28/hdfs.html">
+          single-node HDFS 설치 및 실행
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Jul 28, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 3 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/hadoop-ecosystem/2022/07/28/hdfs.html">
+        <p>
+        java 설치
+
+openjdk-8-jdk 다운로드
+
+sudo apt install openjdk-8-jdk
+
+
+환경변수 설정
+
+하둡 다운로드
+
+다운로드 및 압축해제
+
+  HDFS 3.2.3 버전으로 다운로드 하였음
+
+
+wget https://downloads.apache.org/hadoop/common/hadoop-3.2.3/hadoop-3.2.3.tar.gz
+tar -zxf hadoop-3.2.3.tar.gz
+
+
+하둡 설정파일 설정
+
+{hadoop의 root directory}/etc/hadoop에 존재
+
+
+  hadoop-env.sh: JAVA_HOME 경로 설정
+
+
+
+
+
+  
+    core-site.xml:... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hadoop-ecosystem">#hadoop-ecosystem</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hdfs">#hdfs</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2022/04/13/file.html">
+          [논문 요약] File Systems Fated for Senescence? Nonsense, Says Science!
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Apr 13, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2022/04/13/file.html">
+        <p>
+        Conference
+
+FAST’17
+
+Authors
+
+Alex Conway, Ainesh Bakshi, Yizheng Jiao, Yang Zhan, Michael A. Bender, William Jannen, Rob Johnson, Bradley C. Kuszmaul, Donald E. Porter, Jun Yuan, Martin Farach-Colton
+
+Summary
+
+Fragmented, or age
+
+Fragmentation occurs when logically continuous file blocks become scattered on disk. Reading these files requires ad... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#file-system">#file-system</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#file-system-fragmentation">#file-system-fragmentation</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2022/03/03/kerneldowngrade.html">
+          리눅스 커널 다운그레이드
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Mar 03, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2022/03/03/kerneldowngrade.html">
+        <p>
+        기본적으로 리눅스는 부팅 시에 가장 높은 버전의 리눅스 커널을 사용하도록 되어있다. 만약 사용하고자 하는 커널 버전보다 높은 버전의 커널이 설치되어있는 경우, 매번 부팅 시마다 grub으로 접근해서 커널 버전을 선택해야 하거나 grub 설정을 수정해서 부팅 순서를 바꿔야 할 필요가 있다.
+
+grub 설정을 건드리고 싶지 않은 경우, 상위 버전의 리눅스 커널을 삭제하는 방법이 있다.
+
+dpkg, apt를 이용한 상위 버전 리눅스 커널 삭제
+
+설치된 커널 이미지 확인
+
+dpkg -l | grep linux-image
+
+
+커널 이미지 삭제
+
+sudo apt-get purge {삭제할 리눅스 이미지 파일명} 
+
+
+설치된 ... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2022/01/11/strace.html">
+          strace를 이용한 리눅스 시스템 콜 분석
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Jan 11, 2022</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2022/01/11/strace.html">
+        <p>
+        strace
+
+프로세스에서 호출하는 시스템콜을 추적하는 도구
+
+strace 설치
+
+sudo apt-get install strace
+
+
+strace 사용법
+
+-o
+
+#strace -o {출력 파일명} {관찰하고자 하는 프로그램}
+strace -o ls-strace ls
+
+
+이 경우 strace는 ls 명령어 실행시 호출되는 시스템 콜을 추척하여 ls-strace라는 이름의 파일에 기록한다.
+
+-e
+
+#strace -o {출력 파일명} -e {모니터링할 시스템 콜} {관찰하고자 하는 프로그램}
+strace -e write ls
+
+
+이 경우에 strace는 ls 명령어 실행시 호출되는 write 시스템 콜을 추적하여 ... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#system-call">#system-call</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#strace">#strace</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/10/28/FAST.html">
+          [논문 요약] A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Oct 28, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/10/28/FAST.html">
+        <p>
+        Journal
+
+ACM TECS’07
+
+Authors
+
+Sang-won Lee, Dong-joo Park, Tae-sun Chung, Dong-ho Lee, Sangwon Park, Ha-joo Song
+
+Summary
+
+Motivation
+
+BAST has the low space utilization because of its block-level associativity. Fully-associativity can overcome the low space utilization.
+
+BAST
+
+
+  
+    Scheme
+
+    If the target sector in the data block is alrea... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#FTL">#FTL</a></div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/10/21/automatic.html">
+          [논문 요약] Automatic I/O stream management based on file characteristics
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Oct 21, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/10/21/automatic.html">
+        <p>
+        Conference
+
+Hotstorage’21
+
+Authors
+
+Yuqi Zhang, Ni Xue, Yangxu Zhou
+
+Idea
+File types
+
+  Append-only
+    
+      Only be written sequentially
+      Invalid only after the file is deleted
+      Lifetimes of write-ahead logs are obviusly shorter than the lifetimes of data files
+    
+  
+  Inplace update
+    
+      Random writes
+      The data files o... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#SSD">#SSD</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#clustering">#clustering</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hot-cold-seperation">#hot-cold-seperation</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/10/18/FAB.html">
+          [논문 요약] FAB: Flash-Aware Buffer management Policy for Portable Media Player
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Oct 18, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/10/18/FAB.html">
+        <p>
+        Conference
+
+IEEE TCE’06
+
+Authors
+
+Heeseung Jo, Jeong-Uk Kang, Seon-Yeong Park, Jin-Soo Kim, Joonwon Lee
+
+Summary
+
+Motivation
+
+LRU policy is not appropriate buffer management policy for a typical file access pattern for PMP.
+
+The policy that is well aware of the characteristics of NAND flash memory and the mechanism of flash controller is needed.... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#buffer-management">#buffer-management</a></div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/10/18/DPES.html">
+          [논문 요약] Lifetime Improvement of NAND Flash-based Storage Systems Using Dynamic Program and Erase Scaling
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Oct 18, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 4 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/10/18/DPES.html">
+        <p>
+        Conference
+
+FAST’14
+
+Authors
+
+Jaeyong Jeong, Sangwook Shane Hahn, Sungjin Lee, Jihong Kim
+
+Summary
+
+Problem
+
+Even though the NAND density doubles every two years, the storage lifetime does not increase as much as expected in a recent device technology. Many existing lifetime-enhancing techniques have mainly focused on reducing WAF by increasing ... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#FTL">#FTL</a></div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/10/18/DFTL.html">
+          [논문 요약] DFTL: A Flash Translation Layer Employing Demand-based Selective Caching of Page-level Address Mappings
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Oct 18, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/10/18/DFTL.html">
+        <p>
+        Conference
+
+ASPLOS’09
+
+Authors
+
+Aayush Gupta, Youngjae Kim, Bhuvan Urgaonkar
+
+Summary
+
+Motivation
+
+hybrid log-buffered FTL suffer performance degradation due to expensive full merges because of the difference in mapping granularity of data and update blocks.
+
+A high-performance FTL should completely be re-designed by doing away with log-blocks.
+... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#FTL">#FTL</a></div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/10/13/essential.html">
+          [논문 요약] Essential Roles of Exploiting Internal Parallelism of Flash Memory State Drives in High-Speed Data Processing
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Oct 13, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/10/13/essential.html">
+        <p>
+        Conference
+
+IEEE Symposium on High-Performance Computer Architecture (HPCA’11)
+
+Authors
+
+Feng Chen, Rubao Lee, Xiaodong Zhang
+
+Idea
+
+SSD performance is no longer highly sensitive to access patterns, but rather to other factors, such as data access interferences and physical data layout.
+
+Need to focus on internal parallelism of SSDs.
+
+New findin... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#SSD">#SSD</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#internal-parallelism">#internal-parallelism</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#pattern">#pattern</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2021/07/07/vim.html">
+          vim 설정
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Jul 07, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 4 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2021/07/07/vim.html">
+        <p>
+        목표
+
+목적은 다음과 같습니다. 아래와 같은 형태의 vim을 만든다.
+
+
+
+리눅스 커널 코드 분석의 편의를 위해서는 vim 설정을 최적화할 필요가 있었습니다.
+vim 설정의 주요 사항은 3가지였습니다.
+
+
+  ctags를 이용한 태그 검색
+  tagbar를 이용한 태그 브라우징
+  그래픽 요소 설정
+
+
+vim 설정
+
+.vimrc 생성
+
+.vimrc는 vim configuration 파일입니다.
+우선 .vimrc를 만듭니다.
+
+vi /etc/vim/.vimrc
+
+
+처음 .vimrc를 만들면 빈 파일인 것을 확인할 수 있습니다.
+.vimrc에 플러그인과 설정을 추가하는 것으로 vim을 커스텀할 수 있습니다.
+
+vi .... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#vim">#vim</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2021/04/26/linuxkernelcompile.html">
+          리눅스 커널 소스코드 컴파일
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Apr 26, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 3 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2021/04/26/linuxkernelcompile.html">
+        <p>
+        커널 소스코드 다운로드
+
+현재 커널 버전 확인
+
+uname -r
+
+
+커널 소스코드 다운로드
+
+리눅스 커널 아카이브: https://www.kernel.org/
+
+희망하는 버전의 커널 소스코드를 tarball을 눌러 다운로드
+
+
+
+소스코드 위치 이동
+
+다운로드 받은 소스코드 압축 파일을 /usr/src 경로로 이동
+
+ex) ~/Downloads에 linux-5.15.21.tar.xz 파일을 다운로드 받은 경우
+
+cd ~/Downloads
+mv linux-5.15.21.tar.xz /usr/src
+
+
+소스코드 압축 해제
+
+/usr/src로 이동시킨 파일을 압축해제
+
+cd /usr/src
+# tar -xvf {압축된 커... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#ubuntu">#ubuntu</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/paper/2021/04/26/f2fs.html">
+          [논문 요약] F2FS: A New File System for Flash Storage
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Apr 26, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 4 mins</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/paper/2021/04/26/f2fs.html">
+        <p>
+        Conference
+
+FAST’15
+
+Authors
+
+Changman Lee, Dongho Sim, Joo-Young Hwang, Sangyeun Cho
+
+Summary
+
+Motivation
+
+NAND flash memory has been widely used. However, file systems do not consider the characteristics of flash storage devices. In this paper, authors presented F2FS, a new file system optimized for modern flash storage devices.
+
+Flash-friendl... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#F2FS">#F2FS</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#file%20system">#file system</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#SSD">#SSD</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="post-title">
+        <a class="post-link" href="/jekyll-theme-yat/linux-kernel/2021/03/05/blktrace.html">
+          리눅스 block I/O 분석
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> Mar 05, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 1 min</span>
+      </div>
+      <a class="post-excerpt" href="/jekyll-theme-yat/linux-kernel/2021/03/05/blktrace.html">
+        <p>
+        blktrace
+
+리눅스 커널의 Block I/O layer에서 발생하는 block I/O를 추적하는 도구.
+
+blktrace 설치
+
+sudo apt update
+sudo apt-get install blktrace
+
+
+blktrace 사용법
+
+#blktrace -d {관찰하고자 하는 storage device 이름} [-o {출력 파일명}] [-w {관측 시간(초)}] [-a {관측하고자 하는 action}]
+blktrace -d /dev/nvme0n1 -o test -w 30 
+
+
+관측하고자 하는 device 이름은 fdisk -l 명령어를 통해서 확인 가능하다.
+
+
+
+Block I/O 데이터는 CPU별로 수집... <span class="read_more">Read More</span>
+        </p>
+      </a>
+      <div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#blockIO">#blockIO</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#blktrace">#blktrace</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#blkparse">#blkparse</a>
+</div>
+    </li>
+</ul>
+
+  <!-- Pagination links -->
+</div>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="common-list">
+  <ul>
+    <li>
+      <a href="/jekyll-theme-yat/index.html">
+        All<span>25</span>
+      </a>
+    </li>
+
+    
+      <li>
+        <a href="/jekyll-theme-yat/categories.html#h-hadoop-ecosystem">
+          hadoop-ecosystem <span>5</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/jekyll-theme-yat/categories.html#h-linux-kernel">
+          linux-kernel <span>10</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/jekyll-theme-yat/categories.html#h-paper">
+          paper <span>8</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/jekyll-theme-yat/categories.html#h-storage">
+          storage <span>2</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2017-2023 Minseon Cho(Delta)</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

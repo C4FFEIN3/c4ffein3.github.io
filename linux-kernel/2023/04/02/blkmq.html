@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Multi-queue block I/O scheduler | Delta</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="Multi-queue block I/O scheduler">
+<meta name="author" content="Minseon Cho(Delta)">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Multi-queue block I/O scheduler blk-mq(Multi-queue block I/O queueing mechanism)의 I/O scheduler 리눅스 커널 5.0부터 multi-queue block I/O scheduler를 기본 I/O scheduelr로 사용 리눅스 커널 5.3부터 기존의 single queue block I/O scheduler를 지원하지 않음 RHEL 8, Ubuntu 20부터 multi-queue block I/O scheduler를 기본 I/O scheduler로 사용">
+<meta property="og:description" content="Multi-queue block I/O scheduler blk-mq(Multi-queue block I/O queueing mechanism)의 I/O scheduler 리눅스 커널 5.0부터 multi-queue block I/O scheduler를 기본 I/O scheduelr로 사용 리눅스 커널 5.3부터 기존의 single queue block I/O scheduler를 지원하지 않음 RHEL 8, Ubuntu 20부터 multi-queue block I/O scheduler를 기본 I/O scheduler로 사용">
+<link rel="canonical" href="/jekyll-theme-yat/linux-kernel/2023/04/02/blkmq.html">
+<meta property="og:url" content="/jekyll-theme-yat/linux-kernel/2023/04/02/blkmq.html">
+<meta property="og:site_name" content="Delta">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-04-02T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Multi-queue block I/O scheduler">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Minseon Cho(Delta)"},"dateModified":"2023-04-02T00:00:00+00:00","datePublished":"2023-04-02T00:00:00+00:00","description":"Multi-queue block I/O scheduler blk-mq(Multi-queue block I/O queueing mechanism)의 I/O scheduler 리눅스 커널 5.0부터 multi-queue block I/O scheduler를 기본 I/O scheduelr로 사용 리눅스 커널 5.3부터 기존의 single queue block I/O scheduler를 지원하지 않음 RHEL 8, Ubuntu 20부터 multi-queue block I/O scheduler를 기본 I/O scheduler로 사용","headline":"Multi-queue block I/O scheduler","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll-theme-yat/linux-kernel/2023/04/02/blkmq.html"},"url":"/jekyll-theme-yat/linux-kernel/2023/04/02/blkmq.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/jekyll-theme-yat/feed.xml" title="Delta">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Delta" src="" onerror="this.style.display='none'">
+  Delta
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">Multi-queue block I/O scheduler</h1>
+  <h2 class="post-subtitle">Multi-queue block I/O scheduler 조사</h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-04-02T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Apr 02, 2023
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+  </p>
+<div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#kernel">#kernel</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#blockIO">#blockIO</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h2 id="multi-queue-block-io-scheduler">Multi-queue block I/O scheduler</h2>
+<ul>
+  <li>blk-mq(Multi-queue block I/O queueing mechanism)의 I/O scheduler</li>
+  <li>리눅스 커널 5.0부터 multi-queue block I/O scheduler를 기본 I/O scheduelr로 사용</li>
+  <li>리눅스 커널 5.3부터 기존의 single queue block I/O scheduler를 지원하지 않음</li>
+  <li>RHEL 8, Ubuntu 20부터 multi-queue block I/O scheduler를 기본 I/O scheduler로 사용</li>
+</ul>
+
+<h2 id="multi-queue-block-io-queueing">Multi-queue block I/O queueing</h2>
+<h3 id="배경">배경</h3>
+<ul>
+  <li>기존의 디자인은 <strong>single queue와 하나의 lock</strong>으로 block I/O 요청 관리</li>
+  <li>멀티 프로세서 환경에서 단일 lock을 이용한 I/O 관리는 <strong>병목 현상</strong> 야기 <br>
+→ 이러한 문제를 해결하기 위해서 <strong>multi-queue block I/O 고안</strong>
+</li>
+  <li>blk-mq API에서는 <strong>각 CPU별로 개별적인 큐</strong>를 할당하여 lock으로 인한 성능 저하 문제를 해결</li>
+</ul>
+
+<h3 id="구조">구조</h3>
+<p><img src="https://user-images.githubusercontent.com/57282971/229330942-c0c75059-4b2f-4702-adc9-bd6ac22a063b.png" alt="overview"></p>
+
+<ul>
+  <li>blk-mq는 파일 시스템과 블록 I/O 디바이스 사이에서 동작</li>
+  <li>blk-mq는 <strong>소프트웨어 큐</strong>(<strong>software staging queues</strong>)와 <strong>하드웨어 큐</strong>(<strong>hardware dispatch queues</strong>)의 두 종류의 큐들로 구성
+    <ul>
+      <li>I/O 스케줄러가 있거나 I/O 요청을 합쳐야(merge)할 필요가 있는 경우 I/O 요청은 소프트웨어 큐로 보내짐</li>
+      <li>그 외의 경우 하드웨어 큐로 바로 보내짐</li>
+      <li>소프트웨어 큐에서 I/O 요청이 처리된 이후 하드웨어 큐로 보내짐
+        <ul>
+          <li>하드웨어에 I/O 요청을 처리할 수 있는 충분한 리소스가 없는 경우, 처리 가능해질 때까지 임시 큐에 보관</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="소프트웨어-큐">소프트웨어 큐</h4>
+<ul>
+  <li>각각의 큐는 고유의 lock을 가지고 있고, 큐의 개수는 per-CPU나 per-node기반으로 결정</li>
+  <li>Staging queue는 인접한 섹터에 해당하는 요청들을 합치는 역할
+    <ul>
+      <li>ex. 3-6, 6-7, 7-9의 요청이 있으면 3-9의 하나의 요청으로 합침</li>
+    </ul>
+  </li>
+  <li>큐의 I/O 요청들은 <strong>I/O 스케줄러</strong>에 의해 재정렬될 수도 있음</li>
+</ul>
+
+<h4 id="하드웨어-큐">하드웨어 큐</h4>
+<ul>
+  <li>하드웨어 큐는 <strong>디바이스 드라이버의 디바이스 서브미션 큐(device submission queue) 혹은 디바이스 DMA ring buffer와 매핑</strong>
+</li>
+  <li>이 큐를 실행시키면 블록 레이어는 소프트웨어 큐에서 해당 요청들을 제거하고 하드웨어에 요청들을 디스패치</li>
+  <li>하드웨어 큐의 개수는 하드웨어와 디바이스 드라이버가 지원하는 만큼 만들 수 있지만, 시스템의 코어 수를 넘지 않음</li>
+  <li>재정렬 과정은 존재하지 않음 <strong>(I/O 스케줄러 사용하지 않음)</strong>
+</li>
+  <li>각 소프트웨어 큐에는 요청을 보낼 하드웨어 큐 집합이 있음</li>
+</ul>
+
+<h2 id="multi-queue-block-io-scheduler의-종류">Multi-queue block I/O scheduler의 종류</h2>
+<h3 id="none">none</h3>
+
+<blockquote>
+  <p><strong>noop</strong></p>
+  <ul>
+    <li>single queue block I/O scheduler의 일종</li>
+    <li>I/O 요청에 대해서 별도의 정렬 조치를 취하지 않는 방식. no operation.</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>noop의 멀티 큐 버전</li>
+  <li>I/O 요청에 대해서 별도의 정렬 조치를 취하지 않는 방식</li>
+  <li>SSD나 고성능 스토리지 환경에서 CPU-bound 작업을 하는 경우에 적합</li>
+  <li>RHEL 8, Ubuntu 20에서 multi-queue device의 default I/O scheduler</li>
+</ul>
+
+<h3 id="mq-deadline">mq-deadline</h3>
+<blockquote>
+  <p><strong>deadline</strong></p>
+  <ul>
+    <li>single queue block I/O scheduler의 일종</li>
+    <li>I/O의 마감(deadline)을 지정하고, 마감이 가까운 I/O부터 처리</li>
+    <li>지연 시간에 예민한 프로세스들에게 유리</li>
+    <li>RHEL 7의 default I/O scheduler</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>deadline의 멀티 큐 버전</li>
+  <li>RHEL 8, Ubuntu 20에서 single queue device의 default I/O scheduler</li>
+</ul>
+
+<h4 id="configurable-parameter">Configurable parameter</h4>
+<ul>
+  <li>async_depth
+    <ul>
+      <li>default value: 1</li>
+    </ul>
+  </li>
+  <li>fifo_batch
+    <ul>
+      <li>default value: 16</li>
+      <li>배치에 속하는 요청의 최대값</li>
+      <li>레이턴시와 처리량의 트레이드-오프
+        <ul>
+          <li>1으로 설정시 낮은 레이턴시</li>
+          <li>높은 값은 높은 처리량</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>front_merges
+    <ul>
+      <li>default value: 1</li>
+      <li>1은 enable, 0은 disable</li>
+    </ul>
+  </li>
+  <li>write_expire
+    <ul>
+      <li>default value: 5000</li>
+      <li>write의 데드라인 (ms 단위)</li>
+    </ul>
+  </li>
+  <li>writes_starved
+    <ul>
+      <li>default value: 2</li>
+      <li>얼마만큼 read를 write보다 우대하는지</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="bfqbudget-fair-queueing">bfq(Budget Fair Queueing)</h3>
+<blockquote>
+  <p><strong>cfq(Completely Fair Queueing)</strong></p>
+  <ul>
+    <li>single queue block I/O scheduler의 일종</li>
+    <li>모든 프로세스가 I/O를 균등하게 처리하는 방식</li>
+    <li>각 프로세스가 I/O queue를 가지고, round robin 방식으로 정해진 time slice 내에 I/O 처리</li>
+    <li>ubuntu 18의 default I/O scheduler</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>각 프로세스마다 작업 큐를 가지고 있지만, cfq처럼 round robin 방식을 사용하지는 않음</li>
+  <li>각 프로세스마다 I/O budget이 부여되고, 이 budget은 스토리지 접근 기회를 부여받았을 때 프로세스가 몇 개의 섹터만큼 데이터를 전송할 수 있는지를 나타냄</li>
+  <li>데스크톱이나 interactive한 작업에 적합</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/57282971/229330961-17dd85cd-3fe5-42f4-adaf-b5e74dfc68bd.png" alt="bfq1"></p>
+
+<ul>
+  <li>bfq의 budget 계산</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/57282971/229330966-fed44d6c-3261-43f6-8ff3-5b1286b98509.png" alt="bfq2">
+<img src="https://user-images.githubusercontent.com/57282971/229330977-4c75f694-97f8-453c-a0c1-3c94704105d3.png" alt="bfq3"></p>
+
+<h4 id="configurable-parameter-1">Configurable parameter</h4>
+<ul>
+  <li>back_seek_max
+    <ul>
+      <li>default value: 16384</li>
+      <li>backward seeking의 최대값 (KB 단위)</li>
+    </ul>
+  </li>
+  <li>back_seek_penalty
+    <ul>
+      <li>default value: 2</li>
+      <li>backward seeking 계산에 사용되는 값</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p><strong>Backward seek</strong> <br>
+Disk head의 뒤에 위치한 블록을 탐색하는 것으로 bfq는 해당 탐색에 패널티를 부여</p>
+</blockquote>
+
+<ul>
+  <li>fifo_expire_async
+    <ul>
+      <li>default value: 250</li>
+      <li>비동기 요청의 타임아웃 (ms 단위)</li>
+    </ul>
+  </li>
+  <li>fifo_expire_sync
+    <ul>
+      <li>default value: 125</li>
+      <li>동기 요청의 타임아웃 (ms 단위)</li>
+    </ul>
+  </li>
+  <li>low_latency
+    <ul>
+      <li>default value: 1</li>
+      <li>1은 enable, 0은 disable</li>
+    </ul>
+  </li>
+  <li>max_budget
+    <ul>
+      <li>default value: 0</li>
+      <li>budget의 최대값</li>
+      <li>0으로 설정된 경우 BFQ는 내부적으로 timeout_sync를 이용하여 최대값을 구함</li>
+    </ul>
+  </li>
+  <li>slice_idle
+    <ul>
+      <li>default value: 8</li>
+      <li>비어있는 큐에서 다음 요청을 위해서 기다릴 수 있는 최대 시간 (ms 단위)</li>
+    </ul>
+  </li>
+  <li>slice_idle_us
+    <ul>
+      <li>default value: 8000</li>
+      <li>slice_idle과 같으나 마이크로초 단위</li>
+    </ul>
+  </li>
+  <li>strict_guarantees
+    <ul>
+      <li>default value: 0</li>
+      <li>1은 enable, 0은 disable</li>
+      <li>1로 설정되었을 경우 (a) 서비스 큐가 비어있으면 항상 대기하고, (b) 디바이스가 한 번에 하나의 I/O 요청을 처리하도록 강요</li>
+    </ul>
+  </li>
+  <li>timeout_sync
+    <ul>
+      <li>default value: 125</li>
+      <li>태스크(큐)가 선택된 후 서비스되는 최대 시간 (ms 단위)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="kyber">kyber</h3>
+<ul>
+  <li>빠른 멀티 큐 스토리지 장치를 대상으로 디자인</li>
+  <li>SSD나 고성능 스토리지 환경에서 CPU-bound 작업을 하는 경우에 적합</li>
+  <li>I/O 지연시간에 초점을 맞춘 스케줄러
+    <ul>
+      <li>블록 I/O 레이어에 submit 된 모든 I/O의 지연시간을 계산하여 지연시간에 대한 목표를 달성할 수 있도록 조정하는 스케줄러</li>
+      <li>I/O 접근 요청의 도메인 별 지연시간 목표를 설정할 수 있음</li>
+    </ul>
+  </li>
+  <li>도메인 별 설정</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/57282971/229331026-7f1873db-5aaa-4478-ac3d-da3e76d48d3b.png" alt="kyber"></p>
+
+<ul>
+  <li>도메인 별 발생한 지연시간은 히스토그램으로 기록하여 계산에 사용</li>
+</ul>
+
+<h4 id="configurable-parameter-2">Configurable parameter</h4>
+<ul>
+  <li>read_lat_nsec
+    <ul>
+      <li>default value: 2000000</li>
+      <li>read 지연시간 목표값</li>
+    </ul>
+  </li>
+  <li>write_lat_nsec
+    <ul>
+      <li>default value: 10000000</li>
+      <li>write 지연시간 목표값</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="참고자료">참고자료</h2>
+<ul>
+  <li>[I/O schedulers] https://wiki.ubuntu.com/Kernel/Reference/IOSchedulers</li>
+  <li>[bfq] https://lwn.net/Articles/601799/</li>
+  <li>[kyber] https://lwn.net/Articles/720071/</li>
+  <li>[kyber] https://www.phoronix.com/news/Linux-4.12-BFQ-Kyber</li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/storage/2023/03/28/nandflash.html" title="Nand flash memory">Nand flash memory</a><a class="next" href="/jekyll-theme-yat/storage/2023/04/27/hdd.html" title="Hard disk drive">Hard disk drive</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/paper/2022/04/13/file.html" title="Hard disk drive">[논문 요약] File Systems Fated for Senescence? Nonsense, Says Science!</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/storage/2023/04/27/hdd.html" title="Hard disk drive">Hard disk drive</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/storage/2023/03/28/nandflash.html" title="Hard disk drive">Nand flash memory</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/paper/2021/04/26/f2fs.html" title="Hard disk drive">[논문 요약] F2FS: A New File System for Flash Storage</a></li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2017-2023 Minseon Cho(Delta)</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

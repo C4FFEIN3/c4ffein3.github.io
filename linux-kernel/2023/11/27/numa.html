@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>NUMA (Non-Uniform Memory Architecture) | Delta</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="NUMA (Non-Uniform Memory Architecture)">
+<meta name="author" content="Minseon Cho(Delta)">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="시스템 토폴로지">
+<meta property="og:description" content="시스템 토폴로지">
+<link rel="canonical" href="/jekyll-theme-yat/linux-kernel/2023/11/27/numa.html">
+<meta property="og:url" content="/jekyll-theme-yat/linux-kernel/2023/11/27/numa.html">
+<meta property="og:site_name" content="Delta">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-11-27T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="NUMA (Non-Uniform Memory Architecture)">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Minseon Cho(Delta)"},"dateModified":"2023-11-27T00:00:00+00:00","datePublished":"2023-11-27T00:00:00+00:00","description":"시스템 토폴로지","headline":"NUMA (Non-Uniform Memory Architecture)","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll-theme-yat/linux-kernel/2023/11/27/numa.html"},"url":"/jekyll-theme-yat/linux-kernel/2023/11/27/numa.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/jekyll-theme-yat/feed.xml" title="Delta">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Delta" src="" onerror="this.style.display='none'">
+  Delta
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">NUMA (Non-Uniform Memory Architecture)</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-11-27T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Nov 27, 2023
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 12 mins</span>
+  </p>
+<div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#linux">#linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#hardware">#hardware</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h2 id="시스템-토폴로지">시스템 토폴로지</h2>
+
+<h3 id="cmp-chip-level-multi-processor">CMP (Chip-level Multi Processor)</h3>
+
+<ul>
+  <li>최근 CPU는 하나의 소켓에 멀티 코어로 구성 (하나의 칩에 여러 개의 프로세서)</li>
+</ul>
+
+<p><img src="https://github.com/C4FFEIN3/c4ffein3.github.io/assets/57282971/833af338-2184-4100-be35-4b08ce2b3c66" alt="cmp"></p>
+
+<h3 id="smp-symmetric-multi-processor--uma-uniform-memory-access">SMP (Symmetric Multi Processor) / UMA (Uniform Memory Access)</h3>
+
+<ul>
+  <li>멀티코어 CPU를 여러 개 장착한 시스템의 경우 메모리를 2개 이상의 CPU가 접근</li>
+  <li>CPU와 메모리 사이를 네트워크로 연결하여 접근이 필요</li>
+  <li>메모리를 공유하므로 한 번에 한 개의 프로세서만 하나의 메모리에 접근 가능 → 프로세서가 증가할수록 성능 문제 야기</li>
+</ul>
+
+<p><img src="https://github.com/C4FFEIN3/c4ffein3.github.io/assets/57282971/00529582-4c9f-4ab2-89db-47958348ca02" alt="smp"></p>
+
+<h3 id="numa-non-uniform-memory-access">NUMA (Non-Uniform Memory Access)</h3>
+
+<ul>
+  <li>
+<strong>각 프로세서가 독립적인 로컬 메모리</strong>를 보유</li>
+  <li>프로세서의 <strong>위치에 따라 메모리 접근 속도</strong>가 다름</li>
+  <li>프로세서가 로컬 메모리에 접근할 때에는 다른 프로세서의 대기가 불필요하며 <strong>빠른 속도</strong>로 접근 가능</li>
+  <li>각 CPU가 <strong>각 로컬 메모리에 접근하는 것은 동시</strong>에 일어날 수 있어서 성능 향상
+    <ul>
+      <li>로컬 메모리에 접근하는 것을 <strong>로컬 액세스(Local Access)</strong>라고 함</li>
+    </ul>
+  </li>
+  <li>로컬 메모리가 아닌 <strong>다른 CPU에 붙어있는 메모리</strong>에 접근이 필요한 경우 <strong>메모리 접근 시간 증가</strong>
+    <ul>
+      <li>다른 노드의 메모리에 접근하는 것을 <strong>리모트 액세스(Remote Access)</strong>라고 함</li>
+    </ul>
+  </li>
+  <li>
+<strong>로컬 메모리에서 일어나는 메모리 접근 횟수</strong>가 성능 향상에 중요한 인자</li>
+</ul>
+
+<p><img src="https://github.com/C4FFEIN3/c4ffein3.github.io/assets/57282971/432e3472-814e-4717-85c0-765d6f737938" alt="numa"></p>
+
+<h2 id="numa-관련-커널bios-파라미터">NUMA 관련 커널/BIOS 파라미터</h2>
+
+<h3 id="snc-sub-numa-clustering">SNC (Sub NUMA Clustering)</h3>
+
+<ul>
+  <li>1개의 NUMA 노드를 두 개의 NUMA 노드로 쪼개는 것
+    <ul>
+      <li>물리 CPU는 2개인데 시스템 상에서 인식하는 NUMA 노드는 4개</li>
+    </ul>
+  </li>
+  <li>SNC가 켜지면 CPU의 리소스를 절반으로 나누어서 각각의 NUMA 도메인이 구성
+    <ul>
+      <li>LLC, 코어, 메모리 컨트롤러, 채널이 두 영역으로 나누어짐</li>
+    </ul>
+  </li>
+  <li>이상적인 경우에 메모리 레이턴시가 감소하는 이점</li>
+  <li>단, worst case에 대해서는 일반 NUMA보다 메모리 레이턴시가 증가
+    <ul>
+      <li>Node N번 LLC 확인
+  → Node N번 컨트롤러/채널에서 확인 (best)
+  → 같은 프로세서에 위치한 Node N+1번의 컨트롤러/채널에서 확인 (good)
+  → 다른 프로세서에 위치한 노드의 컨트롤러/채널 확인 (worst)</li>
+    </ul>
+  </li>
+  <li>BIOS 상에서 설정
+    <ul>
+      <li>일반적으로는 디폴트로 disable 설정</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="bios의-node-interleaving">BIOS의 Node interleaving</h3>
+
+<ul>
+  <li>BIOS에서 NUMA를 기존의 SMP처럼 사용하도록 설정하는 기능을 제공</li>
+  <li>BIOS 상에서 Node interleaving이라는 설정 값으로 존재
+    <ul>
+      <li>Node interleaving - disabled가 NUMA 사용</li>
+      <li>Node interleaving - enabled가 NUMA 미사용</li>
+    </ul>
+  </li>
+  <li>SMP 시스템처럼 전체 메모리에 일관된 주소로 접근 가능하지만 NUMA 구조를 SMP처럼 흉내내는 것이므로 SUMA(Sufficiently Uniform Memory Architecture)라고 불리기도 함</li>
+  <li>어플리케이션이 NUMA와 맞지 않거나 최적화를 통한 빠른 성능보다는 균일한 응답속도와 대량의 메모리를 SMP처럼 사용하는 환경에 더 적합하다면 node interleaving을 활성화</li>
+</ul>
+
+<h3 id="kernel의-numa-balancing">Kernel의 NUMA balancing</h3>
+
+<ul>
+  <li>커널 레벨에서 NUMA 밸런싱을 제공하는 기능
+    <ul>
+      <li>주기적으로 프로세스의 메모리 매핑을 해제하고 메모리를 프로그램이 실행되는 노드로 옮기거나 태스크를 메모리에 가깝게 옮기는 기능 수행</li>
+    </ul>
+  </li>
+  <li>커널 3.10부터 기본적으로 활성화 되어있음</li>
+  <li>/proc/sys/kernel/numa_balancing 값으로 확인 가능
+    <ul>
+      <li>디폴트: 1 (활성화)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@test:~# <span class="nb">cat</span> /proc/sys/kernel/numa_balancing
+1
+</code></pre></div></div>
+
+<h3 id="kernel의-vmzone_reclaim_mode">Kernel의 vm.zone_reclaim_mode</h3>
+
+<ul>
+  <li>커널은 메모리를 사용 용도에 따라 zone이라 부르는 영역으로 구분하여 관리
+    <ul>
+      <li>zone 정보는 /proc/buddyinfo를 통해 확인 가능</li>
+    </ul>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="o">[</span>root@test ~]# <span class="nb">cat</span> /proc/buddyinfo
+  Node 0, zone      DMA      0      0      0      0      0      0      0      0      1      1      2
+  Node 0, zone    DMA32      7     11      6      8      5      8      8      9      8      4    304
+  Node 0, zone   Normal     66     53     14      4      1      3      2      3      1      2    189
+  Node 1, zone   Normal     74     33      8      2      0      2      3      7     36     52   1172
+</code></pre></div>    </div>
+  </li>
+  <li>DMA, DMA32는 Direct Memory Access를 위한 영역 (주로 오래된 하드웨어 동작을 위한 영역. 현재는 해당 영역을 필요로 하는 하드웨어 거의 없음)</li>
+  <li>Normal은 일반적인 용도의 영역
+    <ul>
+      <li>커널, 프로세스 등이 메모리를 필요로 할 때 Normal 영역에서 메모리를 할당받아서 사용</li>
+    </ul>
+  </li>
+  <li>vm.zone_reclaim_mode는 이 영역들 사이에서 특정 영역의 메모리가 부족할 경우 다른 영역의 메모리를 할당할 수 있게 함
+    <ul>
+      <li>4가지 값이 존재하나 실질적으로 0과 1이 중요</li>
+      <li>0은 disable. zone 안에서 재할당하지 않음 → 다른 zone에서 가져와서 사용
+        <ul>
+          <li>page cache 등과 같은 재할당 대상 메모리들이 반환되지 않고 다른 노드에 있는 메모리를 할당 받아 사용</li>
+          <li>메모리의 로컬 액세스로 인한 이득 &lt; 많은 양의 page cache를 확보함으로써 생기는 이득인 경우</li>
+          <li>일반적으로는 0이 유리</li>
+        </ul>
+      </li>
+      <li>1은 enable. zone 안에서 재할당 → 메모리 부족한 경우 해당 zone 안에서 재할당할 수 있는 메모리 영역을 먼저 찾아서 필요한 만큼 재할당하여 재사용. 그렇지 않은 경우 다른 zone에서 메모리 할당 받아 사용
+        <ul>
+          <li>메모리의 로컬 액세스로 인한 이득 &gt; page cache 확보로 인한 이득인 경우</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@test:~# <span class="nb">cat</span> /proc/sys/vm/zone_reclaim_mode
+0
+</code></pre></div></div>
+
+<h2 id="리눅스-numa-cli-툴">리눅스 NUMA CLI 툴</h2>
+
+<h3 id="numactl">numactl</h3>
+
+<ul>
+  <li>프로세스의 NUMA 사용 정보 확인 및 정책 설정 가능</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@test:~# numactl <span class="nt">-s</span>
+policy: default
+preferred node: current
+physcpubind: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+cpubind: 0 1
+nodebind: 0 1
+membind: 0 1
+root@test:~# numactl <span class="nt">-H</span>
+available: 2 nodes <span class="o">(</span>0-1<span class="o">)</span>
+node 0 cpus: 0 1 2 3 4 5 6 7 16 17 18 19 20 21 22 23
+node 0 size: 15410 MB
+node 0 free: 13070 MB
+node 1 cpus: 8 9 10 11 12 13 14 15 24 25 26 27 28 29 30 31
+node 1 size: 16083 MB
+node 1 free: 15229 MB
+node distances:
+node   0   1
+  0:  10  21
+  1:  21  10
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>available</strong> : NUMA 노드 개수 확인 가능</li>
+  <li>
+<strong>node # cpus/size/free</strong> : 각각의 노드에 해당하는 CPU 번호와 노드에 할당된 메모리 크기 확인 가능</li>
+  <li>
+<strong>node distances</strong> : 각 노드의 메모리에 접근하는데 걸리는 시간
+    <ul>
+      <li>0번 노드 → 1번 노드 메모리 접근에 걸리는 시간이 21이라는 뜻</li>
+      <li>절대적인 시간은 아니고 상대적인 값</li>
+      <li>0번 노드 → 0번 노드 메모리보다 2.1배 시간이 필요하다고 해석 가능.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="numastat">numastat</h3>
+
+<ul>
+  <li>numactl 패키지에 포함된 상태 확인 커맨드</li>
+  <li>현재 NUMA 운영 상태 확인</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# numastat
+                           node0           node1
+numa_hit                17424515        12929757
+numa_miss                      0         2128172
+numa_foreign             2128172               0
+interleave_hit           5273354         5273840
+local_node               7187999        10706546
+other_node              10236516         4351383
+</code></pre></div></div>
+
+<ul>
+  <li>현재 NUMA 메모리 확인</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# numastat <span class="nt">-m</span>
+
+Per-node system memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span>:
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+Token Node not <span class="k">in </span><span class="nb">hash </span>table.
+                          Node 0          Node 1           Total
+                 <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+MemTotal                15346.38        16066.98        31413.36
+MemFree                 12278.76        15093.87        27372.62
+MemUsed                  3067.62          973.11         4040.74
+Active                     28.92          351.93          380.85
+Inactive                   62.17          195.05          257.21
+Active<span class="o">(</span>anon<span class="o">)</span>                0.09            2.12            2.21
+Inactive<span class="o">(</span>anon<span class="o">)</span>             11.14           49.48           60.62
+Active<span class="o">(</span>file<span class="o">)</span>               28.83          349.81          378.64
+Inactive<span class="o">(</span>file<span class="o">)</span>             51.03          145.56          196.59
+Unevictable                 0.00            0.00            0.00
+Mlocked                     0.00            0.00            0.00
+Dirty                       0.00            0.00            0.00
+Writeback                   0.00            0.00            0.00
+FilePages                  81.21          511.11          592.33
+Mapped                      0.29           55.20           55.49
+AnonPages                  10.04           36.03           46.07
+Shmem                       0.08           15.21           15.29
+KernelStack                 4.13            3.32            7.45
+PageTables                  0.93            4.00            4.93
+NFS_Unstable                0.00            0.00            0.00
+Bounce                      0.00            0.00            0.00
+WritebackTmp                0.00            0.00            0.00
+Slab                      369.82          244.15          613.96
+SReclaimable               60.18           79.33          139.51
+SUnreclaim                309.64          164.82          474.46
+AnonHugePages               0.00            0.00            0.00
+ShmemHugePages              0.00            0.00            0.00
+ShmemPmdMapped              0.00            0.00            0.00
+HugePages_Total             0.00            0.00            0.00
+HugePages_Free              0.00            0.00            0.00
+HugePages_Surp              0.00            0.00            0.00
+</code></pre></div></div>
+
+<ul>
+  <li>특정 프로세스의 NUMA 메모리 사용 정보 확인</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> bash
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 51870 <span class="o">(</span>bash<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.07            1.58            1.66
+Stack                        0.01            0.09            0.11
+Private                      0.02            3.57            3.59
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                        0.11            5.25            5.36
+</code></pre></div></div>
+
+<h3 id="numactl을-통한-프로세스-numa-정책-설정">numactl을 통한 프로세스 NUMA 정책 설정</h3>
+
+<ul>
+  <li>
+<strong>–membind / -m</strong> : 지정된 노드에만 메모리 할당. 메모리 부족시 할당 실패</li>
+  <li>
+<strong>–cpunodebind / -N</strong> : 지정된 노드의 CPU에서만 프로세스 실행. 하나의 노드가 여러 CPU를 가질 수 있음</li>
+  <li>
+<strong>–physcpubind / -C</strong> : 지정된 CPU 번호에만 프로세스를 실행</li>
+  <li>
+<strong>–preferred / -p</strong> : 선호하는 node 지정. 리소스가 부족한 경우 다른 노드로부터 할당</li>
+  <li>
+<strong>–interleave / -i</strong> : 메모리를 RR로 지정된 노드들에 할당. all인 경우에 모든 노드들에 할당. 지정된 노드들로부터 메모리 할당에 실패하면 다른 노드들에 할당</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@test:~# numactl <span class="nt">--physcpubind</span><span class="o">=</span>0 <span class="nt">--</span> ./a.out
+root@test:~# numactl <span class="nt">--preferred</span><span class="o">=</span>0 <span class="nt">--</span> ./a.out
+root@test:~# numactl <span class="nt">--interleave</span><span class="o">=</span>all <span class="nt">--</span> ./a.out
+</code></pre></div></div>
+
+<h3 id="numad">numad</h3>
+
+<ul>
+  <li>현재 실행 중인 전체 프로세스에 대해서 리소스 사용 현황을 살피고 CPU, memory에 대한 affinity를 조절하는 툴</li>
+  <li>각 프로세스가 동일한 노드의 CPU, 메모리를 사용하도록 조절
+    <ul>
+      <li>하나의 시스템에 수십, 수백개의 어플리케이션이 실행되거나 여러 가상 게스트 시스템이 동작하는 집약적 시스템 환경에 적합</li>
+    </ul>
+  </li>
+  <li>numad -i 5는 numad가 시스템을 스캔하는 주기를 5초로 설정
+    <ul>
+      <li>numactl로 interleave 설정을 했음에도 RR로 고루 분산되는 것이 아니라 numad에 의해 한쪽 노드로 쏠리게 할당</li>
+      <li>numad의 옵션 중 -K 옵션이 기본적으로 0으로 설정. -K 0은 interleave된 메모리를 로컬 메모리로 모으려고 함.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# numad <span class="nt">-i</span> 5
+<span class="o">[</span>root@test ~]# numactl <span class="nt">--interleave</span><span class="o">=</span>all ./a.out &amp;
+<span class="o">[</span>1] 51997
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 51997 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.01            0.00            0.01
+Private                   2320.49         2321.58         4642.07
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     2320.50         2321.59         4642.09
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 51997 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.01            0.00            0.01
+Private                   2768.62         5362.45         8131.08
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     2768.63         5362.46         8131.09
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 51997 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.00            0.01            0.01
+Private                   6898.71        13582.44        20481.15
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     6898.71        13582.45        20481.17
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 51997 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.00            0.01            0.01
+Private                   6898.71        13582.44        20481.15
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     6898.71        13582.45        20481.1
+</code></pre></div></div>
+
+<ul>
+  <li>numad -K 1 옵션 사용시 interleave 된 메모리를 로컬 메모리로 모으지 않음</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# numad <span class="nt">-K</span> 1 <span class="nt">-i</span> 5
+<span class="o">[</span>root@test ~]# numactl <span class="nt">--interleave</span><span class="o">=</span>all ./a.out &amp;
+<span class="o">[</span>1] 52071
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 52071 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.01            0.00            0.01
+Private                   2819.45         2820.42         5639.88
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     2819.46         2820.43         5639.89
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 52071 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.01            0.00            0.01
+Private                   4388.39         4389.35         8777.74
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     4388.39         4389.36         8777.75
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 52071 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.01            0.00            0.01
+Private                   8942.25         8943.22        17885.47
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                     8942.26         8943.23        17885.49
+<span class="o">[</span>root@test ~]# numastat <span class="nt">-p</span> a.out
+
+Per-node process memory usage <span class="o">(</span><span class="k">in </span>MBs<span class="o">)</span> <span class="k">for </span>PID 52071 <span class="o">(</span>a.out<span class="o">)</span>
+                           Node 0          Node 1           Total
+                  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Huge                         0.00            0.00            0.00
+Heap                         0.00            0.00            0.00
+Stack                        0.01            0.00            0.01
+Private                  10240.04        10241.00        20481.04
+<span class="nt">----------------</span>  <span class="nt">---------------</span> <span class="nt">---------------</span> <span class="nt">---------------</span>
+Total                    10240.04        10241.01        20481.05
+</code></pre></div></div>
+
+<h2 id="참고자료">참고자료</h2>
+
+<ul>
+  <li>NUMA
+    <ul>
+      <li><a href="https://brunch.co.kr/@dreaminz/4">https://brunch.co.kr/@dreaminz/4</a></li>
+      <li><a href="https://lunatine.net/2016/07/14/numa-with-linux/">https://lunatine.net/2016/07/14/numa-with-linux/</a></li>
+    </ul>
+  </li>
+  <li>SNC
+    <ul>
+      <li><a href="https://byounghee.me/2022/09/22/numa-and-sub-numa-clustering/">https://byounghee.me/2022/09/22/numa-and-sub-numa-clustering/</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/linux-kernel/2023/05/16/mktemp.html" title="[Linux command] mktemp">[Linux command] mktemp</a><span></span>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/paper/2021/10/28/FAST.html" title="">[논문 요약] A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation...</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/paper/2021/10/13/essential.html" title="">[논문 요약] Essential Roles of Exploiting Internal Parallelism of Flash Memory State...</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/paper/2021/10/18/DPES.html" title="">[논문 요약] Lifetime Improvement of NAND Flash-based Storage Systems Using Dynamic Program...</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/linux-kernel/2021/03/05/blktrace.html" title="">리눅스 block I/O 분석</a></li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2017-2023 Minseon Cho(Delta)</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
